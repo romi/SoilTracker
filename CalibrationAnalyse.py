@@ -45,9 +45,8 @@ Weight = Weight[ind]
 #sort Voltage array to match Weight array. Rows index is modified
 Voltage = Voltage.take(ind,0)
 VoltageMean = VoltageMean[ind]
-
-np.savetxt("Weight52.txt",Weight,newline='\n')
-np.savetxt("VoltageMean52.txt",VoltageMean,newline='\n')
-np.savetxt("Standard_Deviation52.txt",StandarDeviation,newline='\n')
-
-np.savetxt("Samples52.txt",Voltage)
+#All data are saved in text files
+np.savetxt("Weight.txt",Weight,newline='\n')
+np.savetxt("VoltageMean.txt",VoltageMean,newline='\n')
+np.savetxt("Standard_Deviation.txt",StandarDeviation,newline='\n')
+np.savetxt("Samples.txt",Voltage)
