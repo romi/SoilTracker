@@ -8,6 +8,7 @@ from matplotlib.pyplot import figure
 import time 
 from datetime import datetime 
 
+#variable to change depending on maximum weight supported by scale
 MasseMax = 5 #kg
 Max_N_Data = 15 #Data to display before "moving the window"
 
@@ -22,19 +23,29 @@ plt.title("Force mesures")
 plt.ylim(0.0, 5000.0)
 line, = plt.plot([],[],'m')
 
+#We write the scaled weights in a text file
 File = open("WeightExperiment.txt","w")
 		
 #Converts Voltage Ratio to weight
+#Code needs to be adjusted to choosen inputs
 def ConvertVoltage(voltage0,voltage1,voltage2) :  
 	#Slope and intercept values
 	fichier = open("LinearRegression.txt","r")
-	slope = float(fichier.readline().strip())
-	intercept = float(fichier.readline().strip())
+	f = open("LinearRegression25.txt","r")
+	file = open("LinearRegression52.txt","r")
+	slope1 = float(fichier.readline().strip())
+	intercept1 = float(fichier.readline().strip())
+	slope2 = float(f.readline().strip())
+	intercept2 = float(f.readline().strip())
+	slope3 = float(file.readline().strip())
+	intercept3 = float(file.readline().strip())
 	fichier.close()
+	f.close()
+	file.close()
 	
 	#Write the weights mesured
 	
-	weight = slope*(voltage0+voltage1+voltage2) + 3*intercept
+	weight = (slope1*voltage0+ intercep1)+(slope2*voltage1 + intercept2)+(slope3*voltage2 + intercept3)
 	
 	if weight < 0 :
 		File.write("0.0 grammes\n")
@@ -51,7 +62,7 @@ def animate(self) :
 	Input0 = VoltageRatioInput()
 	Input1 = VoltageRatioInput()
 	Input2 = VoltageRatioInput()
-	#Precise the channel 
+	#Precises the channel 
 	Input0.setChannel(0)
 	Input1.setChannel(1)
 	Input2.setChannel(2)
@@ -64,7 +75,7 @@ def animate(self) :
 	voltageRatio1 = Input1.getVoltageRatio()
 	voltageRatio2 = Input2.getVoltageRatio()
 	
-	
+	#Plots the animation
 	x.append(datetime.now())
 	y.append(ConvertVoltage(voltageRatio))
 	
@@ -73,7 +84,7 @@ def animate(self) :
 		y.pop(0)
 	
 	line.set_data(x,y)
-		
+	#blits the window
 	Pw.gca().relim()
 	Pw.gca().autoscale_view(tight = True)
 	
