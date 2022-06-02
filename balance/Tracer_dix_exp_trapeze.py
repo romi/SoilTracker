@@ -11,7 +11,7 @@ diff = np.loadtxt("Text_files/Experiments/Trapèze/Différence_aquisition.txt")
 PATH = "Text_files/Experiments/Trapèze"
 data = []
 
-for i in range(0,10):
+for i in range(9,10):
 	
 	#Utilisation des données voisines (4 voisins)
 
@@ -93,7 +93,7 @@ for i in range(0,10):
 		current_data_binette = current_data_binette[:j]
 		current_data_x = current_data_x[:j]
 		current_data_z = current_data_z[:j]
-		current_time = current_time[:j]
+		current_time = current_time[:np.size(f_time)]
 		np.savetxt(PATH+"/data_modifiées/Exp"+str(i+1)+"_current_time.txt",current_time)
 		np.savetxt(PATH+"/data_modifiées/Exp"+str(i+1)+"_current_data_binette.txt",current_data_binette)
 		np.savetxt(PATH+"/data_modifiées/Exp"+str(i+1)+"_current_data_x.txt",current_data_x)
@@ -117,13 +117,26 @@ for i in range(0,10):
 	#efforts vertical fct de axe z et binette
 
 	#efforts horizontaux
-	fig1,ax = plt.subplots(2,2)
+	#fig1,ax = plt.subplots(2,2)
 	#efforts verticaux
-	fig2,al = plt.subplots(2,2)
+	#fig2,al = plt.subplots(2,2)
 	#relation courant effort
-	fig3, ar = plt.subplots(2,2)
+	#fig3, ar = plt.subplots(2,2)
+	
+	ax1 = plt.subplot()
+	l1, = ax1.plot(f_time,f_h,color="m",linewidth=3)
+	ax1.set_ylabel("Effort en N")
+	ax1.set_xlabel("temps en s")
+	ax2 = ax1.twinx()
+	l2, = ax2.plot(current_time,current_data_x,color="r",linewidth=3)
+	ax2.set_ylabel("Courant en A")
+	ax2.set_xlabel("temps en s")
+	
+	
+	plt.legend([l1,l2],["Effort horizontaux","Courant binette"])
+	plt.show()
 
-
+"""
 	ax[0][0].set_ylim(0.0,MasseMaxh)
 	ax[0][0].plot(f_time,f_h,"m",label="Horizontal efforts",linewidth=3)
 	ax[0][0].legend()
@@ -173,8 +186,7 @@ for i in range(0,10):
 			ar[i][j].set_xlabel("courant en A")
 
 	plt.show()
-
-"""		
+		
 	print("size ="+str(np.size(current_time)))
 	
 	#Superposition des dix graphes de efforts horizontaux en fonction du courant binette
