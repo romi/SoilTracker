@@ -35,6 +35,9 @@ if odrv0 != None and odrv1 != None:
     zAxis = odrv0.axis0
     wAxis = odrv0.axis1
     allAxis = (xAxis, zAxis, wAxis)
+else:
+    ERROR = Back.RED + Style.BRIGHT + " ERROR " + Style.RESET_ALL + " "
+    print(f"{ERROR} ODrive objects not initialized properly")
 
 power_on(odrv0)
 power_on(odrv1)

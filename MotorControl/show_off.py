@@ -14,23 +14,27 @@ odrv0 = odrive.find_any(serial_number="367138573030") # Z & W
 odrv1 = odrive.find_any(serial_number="367038563030") # X (& Y)
 
 xAxis = odrv1.axis0
-zAxis = odrv0.axis1
-wAxis = odrv0.axis0
+zAxis = odrv0.axis0
+wAxis = odrv0.axis1
 allAxis = (xAxis, zAxis, wAxis)
 
 ## Motor configuration : set motor velocity to 0 rpm
-for ax in allAxis:
-    ax.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL                         # ID : 8 ; closed loop control
-    ax.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL           # velocity control
-    ax.controller.input_vel = 0                                                 # input velocity in rps = (1/60)rpm
+power_on(odrv0)
+power_on(odrv1)
 
 # start & end positions for showoff procedure. HAS TO BE CHANGED ON EACH REBOOT
 # x, z, w
-revStart = [2.343874931335449, 0.0012421038700267673, -0.02038281224668026]
-revEnd = [-7.517382621765137, 0.0005155196413397789, -0.02038281224668026]
+revStart = [5.891118049621582,
+            -12.116500854492188,
+            56.85087585449219]
+
+revEnd = [  -6.251624584197998,
+            -12.116500854492188,
+            56.85011672973633]
+
 
 xAxis.controller.config.vel_limit = 2
-zAxis.controller.config.vel_limit = 6
+zAxis.controller.config.vel_limit = 20
 
 xAxis.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL
 zAxis.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL
@@ -41,13 +45,14 @@ for (i, ax) in enumerate(allAxis):
 time.sleep(10)
 print("Starting Showoff")
 
-xAxis.controller.input_pos = revEnd[0]
-wAxis.controller.input_vel = 2
+xAxis.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL
+xAxis.controller.input_vel = -1.5
 
 tStart = time.time()
-while abs(xAxis.encoder.pos_estimate) < 7.5:
+while abs(xAxis.encoder.pos_estimate - revEnd[0]) > 0.1:
     tNow = time.time() - tStart
-    zAxis.controller.input_pos = np.sin(np.pi * 2 * tNow)
+    zAxis.controller.input_pos += 5 * np.sin(tNow * 2 * np.pi)
+    wAxis.controller.input_vel = xAxis.encoder.pos_estimate
     time.sleep(0.1)
 
 xAxis.controller.config.vel_limit = 10

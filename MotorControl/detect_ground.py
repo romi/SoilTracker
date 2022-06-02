@@ -34,8 +34,8 @@ time.sleep(1)
 
 ## Motor configuration : set motor velocity to 0 rpm
 xAxis = odrv1.axis0
-zAxis = odrv0.axis1
-wAxis = odrv0.axis0
+zAxis = odrv0.axis0
+wAxis = odrv0.axis1
 allAxis = (xAxis, zAxis, wAxis)
 
 for ax in allAxis:

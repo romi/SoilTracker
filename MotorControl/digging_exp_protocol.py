@@ -16,8 +16,8 @@ odrvs = (odrv0, odrv1)
 
 if odrv0 != None and odrv1 != None:
     xAxis = odrv1.axis0
-    zAxis = odrv0.axis1
-    wAxis = odrv0.axis0
+    zAxis = odrv0.axis0
+    wAxis = odrv0.axis1
     allAxis = (xAxis, zAxis, wAxis)
 else:
     ERROR = Back.RED + Style.BRIGHT + " ERROR " + Style.RESET_ALL + " "
