@@ -133,7 +133,7 @@ for i in range(9,10):
 	ax2.set_xlabel("temps en s")
 	
 	
-	plt.legend([l1,l2],["Effort horizontaux","Courant binette"])
+	plt.legend([l1,l2],["Effort horizontaux","Courant axe x"])
 	plt.show()
 
 """
